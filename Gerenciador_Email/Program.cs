@@ -14,7 +14,7 @@ class Program
     static void Main()
     {
         // Configurações
-        string email = "jonathan.leoesdejuda@gmail.com";
+        string email = "seuemail@dominio.com";
         string senhaApp = Environment.GetEnvironmentVariable("EMAIL_APP_PASSWORD");
         if (string.IsNullOrEmpty(senhaApp))
         {
@@ -91,10 +91,10 @@ class Program
 
                         foreach (var summary in summaries)
                         {
-                            Console.WriteLine($"Processando e-mail UID: {summary.UniqueId}"); // Log no console
+                            Console.WriteLine($"Processando e-mail UID: {summary.UniqueId}"); 
                             LogToFile(logFile, $"Processando e-mail UID: {summary.UniqueId}");
 
-                            Console.WriteLine($"Remetente: {summary.Envelope.From}"); // Log no console
+                            Console.WriteLine($"Remetente: {summary.Envelope.From}"); 
                             LogToFile(logFile, $"Remetente: {summary.Envelope.From}");
 
                             // Verifica se o nome do remetente contém uma das palavras-chave
@@ -144,7 +144,7 @@ class Program
                 relatorio.AppendLine("\nNenhum e-mail apagado nesta execução.");
             }
 
-            // Enviar e-mail com o relatório
+            // Parte que envia o email com o relatorio das exclusões - TODO Necessario aprimoramento
             try
             {
                 var msg = new MimeMessage();
