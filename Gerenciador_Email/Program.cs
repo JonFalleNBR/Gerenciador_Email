@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -27,8 +27,8 @@ class Program
         string logFile = "email_cleanup_log.txt";
 
         // Lista de palavras-chave para remetentes
-        var remetentes = new[] { "aliexpress", "claro", "udemy", "netflix","cruzeiro do sul", "amazon", "apple", "letterboxd", "ebay", "olx", "appbarber", "linkedin", "nubank", "spotify", "CEO", "bne","elem",
-            "senai","vagas.com", "ciee", "catho", "youversion", "viotti", "infojobs", "discord", "quora", "trello", "ilikeyou", "disqus" , "marcos", "marina", 
+        var remetentes = new[] { "aliexpress", "claro", "udemy", "netflix","cruzeiro do sul", "amazon", "apple", "letterboxd", "ebay", "olx", "appbarber", "linkedin", "nubank", "spotify", "CEO",
+            "senai","vagas.com", "ciee", "catho", "youversion", "viotti", "infojobs", "discord", "quora", "trello",, "disqus" , 
         "abelssoft", "velox", "comic boom"};
 
         var dataLimite = DateTime.Now.AddDays(-limiteDias);
