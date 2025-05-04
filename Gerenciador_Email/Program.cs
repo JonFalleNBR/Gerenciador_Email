@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -147,7 +147,7 @@ class Program
                 relatorio.AppendLine("\nNenhum e-mail apagado nesta execução.");
             }
 
-            // Enviar e-mail com o relatório
+            // Parte que envia o email com o relatorio das exclusões - TODO Necessario aprimoramento
             try
             {
                 var msg = new MimeMessage();
