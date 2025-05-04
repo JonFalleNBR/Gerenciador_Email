@@ -14,7 +14,7 @@ class Program
     static void Main()
     {
         // Configurações
-        string email = "jonathan.leoesdejuda@gmail.com";
+        string email = "seuemail@dominio.com";
         string senhaApp = Environment.GetEnvironmentVariable("EMAIL_APP_PASSWORD");
         if (string.IsNullOrEmpty(senhaApp))
         {
@@ -26,10 +26,11 @@ class Program
         int limiteDias = 30;
         string logFile = "email_cleanup_log.txt";
 
-        // Lista de palavras-chave para remetentes
-        var remetentes = new[] { "aliexpress", "claro", "udemy", "netflix","cruzeiro do sul", "amazon", "apple", "letterboxd", "ebay", "olx", "appbarber", "linkedin", "nubank", "spotify", "CEO", "bne","elem",
-            "senai","vagas.com", "ciee", "catho", "youversion", "viotti", "infojobs", "discord", "quora", "trello", "ilikeyou", "disqus" , "marcos", "marina", 
-        "abelssoft", "velox", "comic boom"};
+        // Lista de palavras-chave para remetentes - voce pode ir adicionando conforme necessario - tambem pretendo melhorar a logica para que ele faça a exclusão geral que nao for tivoer ocorrido leitura mesmo - sem instanciar remetente especiofico como aqui
+        var remetentes = new[] { "aliexpress", "claro", "udemy", "netflix","cruzeiro do sul", "amazon", "apple", "letterboxd", "ebay", "olx", "appbarber", "linkedin", "nubank", "spotify", "CEO", "bne",
+            "senai","vagas.com", "ciee", "catho", "youversion", "viotti", "infojobs", "discord", "quora", "trello", "ilikeyou", "disqus" , "marcos", "marina",
+        "abelssoft", "velox", "comic boom", "do-not-reply", "twitch", "call of duty", "uber eats", "education", "ivan", "judge", "softwareone"
+        , "twitter", "facebook", "getninjas", "shopify", "americanas", "quadrix", "instagram", "grupodozapzap", "par", "ef brazil", "crunchyroll"};
 
         var dataLimite = DateTime.Now.AddDays(-limiteDias);
         int totalExcluidos = 0;
@@ -91,20 +92,22 @@ class Program
 
                         foreach (var summary in summaries)
                         {
-                            Console.WriteLine($"Processando e-mail UID: {summary.UniqueId}"); // Log no console
+                            Console.WriteLine($"Processando e-mail UID: {summary.UniqueId}");
                             LogToFile(logFile, $"Processando e-mail UID: {summary.UniqueId}");
 
-                            Console.WriteLine($"Remetente: {summary.Envelope.From}"); // Log no console
+                            Console.WriteLine($"Remetente: {summary.Envelope.From}");
                             LogToFile(logFile, $"Remetente: {summary.Envelope.From}");
 
                             // Verifica se o nome do remetente contém uma das palavras-chave
                             bool eRemetenteValido = summary.Envelope.From.Mailboxes
-                                .Any(address => !string.IsNullOrEmpty(address.Name) &&
-                                    remetentes.Any(r => address.Name.ToLower().Contains(r)));
+     .Any(address =>
+         (!string.IsNullOrEmpty(address.Name) && remetentes.Any(r => address.Name.ToLower().Contains(r))) ||
+         (!string.IsNullOrEmpty(address.Address) && remetentes.Any(r => address.Address.ToLower().Contains(r)))
+     );
 
                             if (eRemetenteValido)
                             {
-                                Console.WriteLine($"Excluindo e-mail de: {summary.Envelope.From}"); // Log no console
+                                Console.WriteLine($"Excluindo e-mail de: {summary.Envelope.From}");
                                 LogToFile(logFile, $"Excluindo e-mail de: {summary.Envelope.From}");
                                 pasta.AddFlags(summary.UniqueId, MessageFlags.Deleted, true);
                                 totalExcluidos++;
